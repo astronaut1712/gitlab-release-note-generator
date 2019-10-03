@@ -1,11 +1,12 @@
 const _ = require("lodash");
 const Gitlab = require("../adapters/gitlab");
 
-exports.getMergeRequestByProjectIdStateStartDateAndEndDate = async (projectId, state, startDate, endDate) => {
+exports.getMergeRequestByProjectIdStateStartDateAndEndDate = async (projectId, state, startDate, endDate, targetBranch) => {
   let { mergeRequests, _link } = await Gitlab.searchMergeRequestsByProjectId(projectId, {
     state,
     updated_before: endDate,
-    updated_after: startDate
+    updated_after: startDate,
+    target_branch: targetBranch
   });
   while (_.get(_link, "next")) {
     const res = await _link.next();

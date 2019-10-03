@@ -16,7 +16,7 @@ exports.generate = async () => {
   const startDate = _.get(secondLatestTag, "commit.committed_date");
   const endDate = _.get(latestTag, "commit.committed_date");
   Logger.info(`Time range that we are looking at MRs and issues is between ${Moment.tz(startDate, Env.TZ)} and ${Moment.tz(endDate, Env.TZ)}`);
-  const mergeRequests = await MergeRequestLib.getMergeRequestByProjectIdStateStartDateAndEndDate(Env.GITLAB_PROJECT_ID, "merged", startDate, endDate);
+  const mergeRequests = await MergeRequestLib.getMergeRequestByProjectIdStateStartDateAndEndDate(Env.GITLAB_PROJECT_ID, "merged", startDate, endDate, Env.TARGET_BRANCH);
   Logger.info(`Found ${mergeRequests ? mergeRequests.length : 0} merge requests`);
   const issues = await IssueLib.searchIssuesByProjectIdStateStartDateAndEndDate(Env.GITLAB_PROJECT_ID, "closed", startDate, endDate);
   Logger.info(`Found ${issues ? issues.length : 0} issues`);
